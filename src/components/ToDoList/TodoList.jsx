@@ -1,20 +1,19 @@
 import React, { useState } from "react";
+import AddTodoForm from "../AddTodoForm/AddTodoForm";
 
 export default function TodoList() {
-  const [todos, setTodos] = useState([
-    { id: "123", text: "shopping", status: "active" },
-    { id: "124", text: "study", status: "active" },
-  ]);
+  const [todos, setTodos] = useState([]);
   const handleAdd = (todo) => {
-    //새로운 투두를 todos에 업데이트 해야함
+    setTodos([...todos, todo]);
   };
   return (
     <section>
       <ul>
-        {todos.map((item) => (
-          <li key={item.id}>{item.text}</li>
+        {todos.map((item, idx) => (
+          <li key={idx}>{item.text}</li>
         ))}
       </ul>
+      <AddTodoForm onAdd={handleAdd} />
     </section>
   );
 }
