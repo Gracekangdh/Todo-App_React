@@ -1,19 +1,39 @@
 import React, { useState } from "react";
 import AddTodoForm from "../AddTodoForm/AddTodoForm";
+import Todo from "../Todo/Todo";
 
-export default function TodoList() {
-  const [todos, setTodos] = useState([]);
-  const handleAdd = (todo) => {
-    setTodos([...todos, todo]);
-  };
+export default function TodoList({ filter }) {
+  const [todos, setTodos] = useState([
+    { id: "123", text: "shopping", status: "active" },
+    { id: "124", text: "study", status: "active" },
+  ]);
+  const handleAdd = (todo) => setTodos([...todos, todo]);
+  const handleUpdate = (updated) =>
+    setTodos(todos.map((t) => (t.id === updated.id ? updated : t)));
+  const handleDelete = (deleted) =>
+    setTodos(todos.filter((t) => t.id !== deleted.id));
+
+  const filtered = getFilteredItems(todos, filter);
   return (
     <section>
       <ul>
-        {todos.map((item, idx) => (
-          <li key={idx}>{item.text}</li>
+        {filtered.map((item) => (
+          <Todo
+            key={item.id}
+            todo={item}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
         ))}
       </ul>
       <AddTodoForm onAdd={handleAdd} />
     </section>
   );
+}
+
+function getFilteredItems(todos, filter) {
+  if (filter === "all") {
+    return todos;
+  }
+  return todos.filter((todo) => todo.status === filter);
 }
