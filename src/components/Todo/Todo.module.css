@@ -30,7 +30,6 @@
   background-color: var(--color-accent);
   transform: rotate(15deg) scale(1.2);
 }
-
 .button {
   color: var(--color-text);
   background-color: transparent;
